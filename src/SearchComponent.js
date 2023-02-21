@@ -15,7 +15,7 @@ export default class SearchComponent {
   initEvent() {
     $(`#${this.citySearchId}`).on("keypress", async (ev) => {
       if (ev.key === "Enter") {
-        this.fetch();
+        this.fetchWheather();
       }
     });
 
@@ -38,7 +38,7 @@ export default class SearchComponent {
   }
 
   setWeatherData(apiResponse) {
-    const temp = apiResponse.current.temp_c;
+    const temp = this.getTemperature(apiResponse)
     const city = apiResponse.location.city;
     this.htmlSetter.setWeatherData(temp, city);
   }
