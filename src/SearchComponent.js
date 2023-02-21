@@ -6,19 +6,28 @@ export default class SearchComponent {
         this.initEvent();
     }
 
-    initEvent() {
-        console.log('search created')
-        $(`#${this.searchButtonId}`).on('click', () => {
-            console.log('clicked')
-            const city = $(`#${this.citySearchId}`)[0].value;
-            console.log(city)
-            fetch(`http://api.weatherapi.com/v1/current.json?q=${city}&key=6e1accc7815a49338c2131030231902`)
-                .then((response) => response.json())
-                .then((weatherResponse) => this.setWeatherData(weatherResponse));
-        });
-    }
+  initEvent() {
+    $(`#${this.citySearchId}`).on('keypress', (ev) => {
+      if (ev.key === 'Enter') {
+        this.fetch()
+      }
+    })
 
-    setWeatherData(weatherData) {
-        $('#temperature-value').text(weatherData.current.temp_c)
-    }
+    $(`#${this.searchButtonId}`).on("click", () => {
+      const result = this.fetch()
+      current
+      console.log(result) 
+      this.setWeatherData(result.current.temp)
+    });
+  }
+
+  setWeatherData(temp, city) {
+    console.log(temp, city)
+    this.htmlSetter.setWeatherData(temp, city)
+  }
+
+  fetch() {
+    return this.apiService.fetch()
+  }
+
 }
