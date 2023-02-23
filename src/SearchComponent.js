@@ -3,7 +3,7 @@ export default class SearchComponent {
     citySearchId,
     searchButtonId,
     apiService,
-    htmlSetter
+    htmlSetter,
   ) {
     this.citySearchId = citySearchId;
     this.searchButtonId = searchButtonId;
@@ -13,37 +13,42 @@ export default class SearchComponent {
   }
 
   initEvent() {
+    const apiFetch = async () => {
+      const results = await Promise.all([this.apiService.fetchCurrent(), this.apiService.fetchHour()]);
+      this.htmlSetter.setWeatherData(results[0], this.getTemperature());
+      this.htmlSetter.setForecast(results[1], this.getTemperature())
+    }
+    
     $(`#${this.citySearchId}`).on("keypress", async (ev) => {
       if (ev.key === "Enter") {
-        this.fetchWheather();
+        apiFetch();
       }
     });
 
     $(`#${this.searchButtonId}`).on("click", async () => {
-      this.fetchWheather();
+      apiFetch();
     });
 
     $('#flexSwitchCheckDefault').on("change", () => {
-      this.fetchWheather();
+      apiFetch();
     });
   }
 
   getTemperature(apiResponse){
-    return $('#flexSwitchCheckDefault')[0].checked ? apiResponse.current.temp_f : apiResponse.current.temp_c
+    return $('#flexSwitchCheckDefault')[0].checked ? 'temp_f' : 'temp_c'
   }
 
   async fetchWheather() {
-    const result = await this.fetch();
+    const result = await this.getData();
     this.setWeatherData(result);
   }
 
   setWeatherData(apiResponse) {
     const temp = this.getTemperature(apiResponse)
-    const city = apiResponse.location.city;
-    this.htmlSetter.setWeatherData(temp, city);
+    this.htmlSetter.setWeatherData(apiResponse, temp);
   }
 
-  async fetch() {
-    return await this.apiService.fetch();
+  async getData() {
+    return await this.apiService.getData();
   }
 }
