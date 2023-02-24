@@ -25,4 +25,7 @@ export class HtmlSetter {
         const tempHour = apiResponse.forecast.forecastday[0].hour[0][tempProperty];
         $(".tempHour").text(`${tempHour}°`);
     }
+    setForecastWeek(apiResponse, tempProperty){
+
+    }
 }

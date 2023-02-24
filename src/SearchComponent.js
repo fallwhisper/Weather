@@ -14,9 +14,10 @@ export default class SearchComponent {
 
   initEvent() {
     const apiFetch = async () => {
-      const results = await Promise.all([this.apiService.fetchCurrent(), this.apiService.fetchHour()]);
+      const results = await Promise.all([this.apiService.fetchCurrent(), this.apiService.fetchHour(), this.apiService.fetchWeek()]);
       this.htmlSetter.setWeatherData(results[0], this.getTemperature());
       this.htmlSetter.setForecast(results[1], this.getTemperature())
+      this.htmlSetter.setForecastWeek(results[2],this.getTemperature())
     }
     
     $(`#${this.citySearchId}`).on("keypress", async (ev) => {
@@ -38,6 +39,8 @@ export default class SearchComponent {
     return $('#flexSwitchCheckDefault')[0].checked ? 'temp_f' : 'temp_c'
   }
 
+  
+
   async fetchWheather() {
     const result = await this.getData();
     this.setWeatherData(result);
@@ -50,5 +53,9 @@ export default class SearchComponent {
 
   async getData() {
     return await this.apiService.getData();
+  }
+
+  getHour(apiResponse) {
+    return apiResponse.forecast.forecastday[0].hour.forEach(x => x)
   }
 }
