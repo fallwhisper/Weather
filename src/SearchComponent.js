@@ -18,6 +18,7 @@ export default class SearchComponent {
       ]);
       // clean week html;
       $(`.week`).html('');
+      $(`.hours`).html('');
       this.htmlSetter.setWeatherData(results[0], this.getTemperature());
       results[1].forecast.forecastday[0].hour.forEach((hour, index) => {
         this.htmlSetter.setForecast(hour, this.getTemperature(), index);

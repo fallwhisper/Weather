@@ -34,15 +34,23 @@ export class HtmlSetter {
       tempProperty === 'temp_c' ? false : true
     );
   }
-
+  // generate html for the day and add it to <div class="week">
   setForecast(hourData, tempProperty, id) {
     const dateObject = new Date(hourData.time);
     const hour = dateObject.getHours();
-    $(`#hour_${id}`).text(`${hour}h`);
     const imageHour = hourData.condition.icon;
-    $(`#imageHour_${id}`).attr(`src`, imageHour);
     const tempHour = hourData[tempProperty];
-    $(`#hourTemperature_${id}`).text(`${tempHour}°`);
+
+    $(`.hours`).append(`<div>
+    <span>${hour}</span>
+    <img src="${imageHour}">
+    <span>${tempHour}</span>
+  </div>`);
+    // $(`#hour_${id}`).text(`${hour}h`);
+    // const imageHour = hourData.condition.icon;
+    // $(`#imageHour_${id}`).attr(`src`, imageHour);
+    // const tempHour = hourData[tempProperty];
+    // $(`#hourTemperature_${id}`).text(`${tempHour}°`);
   }
 
   setForecastWeek(dayData, tempProperty, id) {
@@ -51,8 +59,6 @@ export class HtmlSetter {
     const imageDay = dayData.day.condition.icon;
     const minTemp = dayData.day[`min${tempProperty}`];
     const maxTemp = dayData.day[`max${tempProperty}`];
-
-    // generate html for the day and add it to <div class="week">
 
     $(`.week`).append(`<div>
     <span id="date_3">${day}</span>
