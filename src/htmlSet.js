@@ -1,31 +1,71 @@
 export class HtmlSetter {
-    setWeatherData(apiResponse, tempProperty) {
-        const temp = apiResponse.current[tempProperty]
-        $("#temperature-value").text(`${temp}°`);
-        const date = apiResponse.location.localtime;
-        $("#date").text(date); 
-        const city = apiResponse.location.name;
-        $("#city").text(city);
-        const condition = apiResponse.current.condition.text;
-        $("#condition").text(condition);
-        const image = apiResponse.current.condition.icon;
-        $("#icon").attr('src', image);
-        const humidity = apiResponse.current.humidity;
-        $("#humidity").text(humidity);
-        const wind = apiResponse.current.wind_kph;
-        $("#wind").text(wind);
-        const uv = apiResponse.current.uv;
-        $("#uv").text(uv);
-    }
-    setForecast(apiResponse, tempProperty){
-        const hour = apiResponse.forecast.forecastday[0].hour[0].time;
-        $(".hour").text(`${hour}h`);
-        const imageHour = apiResponse.forecast.forecastday[0].hour[0].condition.icon;
-        $(".imageHour").attr('src', imageHour);
-        const tempHour = apiResponse.forecast.forecastday[0].hour[0][tempProperty];
-        $(".tempHour").text(`${tempHour}°`);
-    }
-    setForecastWeek(apiResponse, tempProperty){
+  constructor(citySearchId, searchButtonId) {
+    this.citySearchId = citySearchId;
+    this.searchButtonId = searchButtonId;
+  }
 
-    }
+  setInitialValues() {
+    const city = window.localStorage.getItem('city');
+    $(`#${this.citySearchId}`).val(city);
+    const temp = window.localStorage.getItem('temp');
+    $('#flexSwitchCheckDefault').prop('checked', temp === 'true');
+  }
+
+  setWeatherData(apiResponse, tempProperty) {
+    const temp = apiResponse.current[tempProperty];
+    $('#temperature-value').text(`${temp}°`);
+    const date = apiResponse.location.localtime;
+    $('#date').text(date);
+    const city = apiResponse.location.name;
+    $('#city').text(city);
+    const condition = apiResponse.current.condition.text;
+    $('#condition').text(condition);
+    const image = apiResponse.current.condition.icon;
+    $('#icon').attr('src', image);
+    const humidity = apiResponse.current.humidity;
+    $('#humidity').text(humidity);
+    const wind = apiResponse.current.wind_kph;
+    $('#wind').text(wind);
+    const uv = apiResponse.current.uv;
+    $('#uv').text(uv);
+    window.localStorage.setItem('city', city);
+    window.localStorage.setItem(
+        'temp',
+      tempProperty === 'temp_c' ? false : true
+    );
+  }
+
+  setForecast(hourData, tempProperty, id) {
+    const dateObject = new Date(hourData.time);
+    const hour = dateObject.getHours();
+    $(`#hour_${id}`).text(`${hour}h`);
+    const imageHour = hourData.condition.icon;
+    $(`#imageHour_${id}`).attr(`src`, imageHour);
+    const tempHour = hourData[tempProperty];
+    $(`#hourTemperature_${id}`).text(`${tempHour}°`);
+  }
+
+  setForecastWeek(dayData, tempProperty, id) {
+    const dayObject = new Date(dayData.date);
+    const day = dayObject.getDate();
+    const imageDay = dayData.day.condition.icon;
+    const minTemp = dayData.day[`min${tempProperty}`];
+    const maxTemp = dayData.day[`max${tempProperty}`];
+
+    // generate html for the day and add it to <div class="week">
+
+    $(`.week`).append(`<div>
+    <span id="date_3">${day}</span>
+    <img src="${imageDay}" id="iageDate_3">
+    <span id="minTemp_${id}">${minTemp}</span>
+    <span id="maxTemp_${id}">${maxTemp}</span>
+    </div>`);
+    // $(`#date_${id}`).text(`${day}`);
+    // const imageDay = dayData.day.condition.icon;
+    // $(`#iageDate_${id}`).attr(`src`, imageDay);
+    // const minTemp = dayData.day[`min${tempProperty}`];
+    // $(`#minTemp_${id}`).text(minTemp);
+    // const maxTemp = dayData.day[`max${tempProperty}`];
+    // $(`#maxTemp_${id}`).text(maxTemp);
+  }
 }

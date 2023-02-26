@@ -6,30 +6,27 @@ export class ApiService {
   async fetchCurrent() {
     const city = $(`#${this.citySearchId}`)[0].value;
     const response = await fetch(
-      `http://api.weatherapi.com/v1/current.json?q=${city}&key=6e1accc7815a49338c2131030231902`
+        `http://api.weatherapi.com/v1/current.json?q=${city}&key=6e1accc7815a49338c2131030231902`
     );
     const weather = await response.json();
-    console.log(weather);
     return weather;
   }
 
   async fetchHour() {
     const city = $(`#${this.citySearchId}`)[0].value;
     const response = await fetch(
-      `http://api.weatherapi.com/v1/forecast.json?q=${city}&key=6e1accc7815a49338c2131030231902`
+        `http://api.weatherapi.com/v1/forecast.json?q=${city}&key=6e1accc7815a49338c2131030231902`
     );
     const weather = await response.json();
-    console.log(weather);
     return weather;
   }
 
   async fetchWeek() {
     const city = $(`#${this.citySearchId}`)[0].value;
     const response = await fetch(
-      `http://api.weatherapi.com/v1/forecast.json?q=${city}&days=7&key=6e1accc7815a49338c2131030231902`
+        `http://api.weatherapi.com/v1/forecast.json?q=${city}&days=7&key=6e1accc7815a49338c2131030231902`
     );
     const weather = await response.json();
-    console.log(weather);
     return weather;
   }
 }
