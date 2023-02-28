@@ -41,8 +41,8 @@ export class HtmlSetter {
     const imageHour = hourData.condition.icon;
     const tempHour = hourData[tempProperty];
 
-    $(`.hours`).append(`<div>
-    <span>${hour}</span>
+    $(`.hours`).append(`<div class="hour">
+    <span>${hour}h</span>
     <img src="${imageHour}">
     <span>${tempHour}</span>
   </div>`);
@@ -60,11 +60,11 @@ export class HtmlSetter {
     const minTemp = dayData.day[`min${tempProperty}`];
     const maxTemp = dayData.day[`max${tempProperty}`];
 
-    $(`.week`).append(`<div>
-    <span id="date_3">${day}</span>
-    <img src="${imageDay}" id="iageDate_3">
-    <span id="minTemp_${id}">${minTemp}</span>
-    <span id="maxTemp_${id}">${maxTemp}</span>
+    $(`.week`).append(`<div class="day">
+    <span class="date">${day}</span>
+    <img src="${imageDay}" class="image-week">
+    <span class="minTemp">${minTemp}L</span>
+    <span class="maxTemp">${maxTemp}H</span>
     </div>`);
     // $(`#date_${id}`).text(`${day}`);
     // const imageDay = dayData.day.condition.icon;
