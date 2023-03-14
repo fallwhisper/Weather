@@ -1,7 +1,9 @@
 export class HtmlSetter {
-  constructor(citySearchId, searchButtonId) {
+
+  constructor(citySearchId, searchButtonId, weatherObj) {
     this.citySearchId = citySearchId;
     this.searchButtonId = searchButtonId;
+    this.weatherObj = weatherObj
   }
 
   setInitialValues() {
@@ -33,6 +35,10 @@ export class HtmlSetter {
         'temp',
       tempProperty === 'temp_c' ? false : true
     );
+    const weatherCode = apiResponse.current.condition.code;
+        $(`#background`).css("background-image", `url('${this.weatherObj[weatherCode].img}')`)
+  
+
   }
   // generate html for the day and add it to <div class="week">
   setForecast(hourData, tempProperty, id) {
@@ -46,11 +52,6 @@ export class HtmlSetter {
     <img src="${imageHour}">
     <span>${tempHour}</span>
   </div>`);
-    // $(`#hour_${id}`).text(`${hour}h`);
-    // const imageHour = hourData.condition.icon;
-    // $(`#imageHour_${id}`).attr(`src`, imageHour);
-    // const tempHour = hourData[tempProperty];
-    // $(`#hourTemperature_${id}`).text(`${tempHour}°`);
   }
 
   setForecastWeek(dayData, tempProperty, id) {
@@ -66,12 +67,5 @@ export class HtmlSetter {
     <span class="minTemp">${minTemp}L</span>
     <span class="maxTemp">${maxTemp}H</span>
     </div>`);
-    // $(`#date_${id}`).text(`${day}`);
-    // const imageDay = dayData.day.condition.icon;
-    // $(`#iageDate_${id}`).attr(`src`, imageDay);
-    // const minTemp = dayData.day[`min${tempProperty}`];
-    // $(`#minTemp_${id}`).text(minTemp);
-    // const maxTemp = dayData.day[`max${tempProperty}`];
-    // $(`#maxTemp_${id}`).text(maxTemp);
   }
 }

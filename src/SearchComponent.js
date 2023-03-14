@@ -1,4 +1,7 @@
 export default class SearchComponent {
+
+  apiResponse = undefined
+
   constructor(citySearchId, searchButtonId, apiService, htmlSetter) {
     this.citySearchId = citySearchId;
     this.searchButtonId = searchButtonId;
@@ -19,6 +22,7 @@ export default class SearchComponent {
       // clean week html;
       $(`.week`).html('');
       $(`.hours`).html('');
+      this.apiResponse = results[0]
       this.htmlSetter.setWeatherData(results[0], this.getTemperature());
       results[1].forecast.forecastday[0].hour.forEach((hour, index) => {
         this.htmlSetter.setForecast(hour, this.getTemperature(), index);
@@ -30,16 +34,16 @@ export default class SearchComponent {
 
     $(`#${this.citySearchId}`).on('keypress', async (ev) => {
       if (ev.key === 'Enter') {
-        apiFetch();
+        await apiFetch();
       }
     });
 
     $(`#${this.searchButtonId}`).on('click', async () => {
-      apiFetch();
+      await apiFetch();
     });
 
-    $('#flexSwitchCheckDefault').on('change', () => {
-      apiFetch();
+    $('#flexSwitchCheckDefault').on('change', async () => {
+      await apiFetch();
     });
   }
 

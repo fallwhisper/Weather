@@ -34,14 +34,6 @@ header {
     border: 2px solid black;
 }
 
-#background {
-    z-index: -1;
-    position: absolute;
-    width: 100%;
-    height: 278px;
-    background-image: url("https://wallpapers.com/images/hd/sunny-weather-with-cherry-blossom-fr2tn0f21evp0viw.jpg");
-    opacity: 0.50;
-}
 
 #city {
     font-style: bold;
@@ -65,9 +57,6 @@ header {
 }
 
 .forecast {
-    z-index: -1;
-    background-image: url("https://rare-gallery.com/uploads/posts/351193-4k-wallpaper.jpg");
-    position: absolute;
     width: 100%;
     height: 100%;
     font-weight: bold;
@@ -81,7 +70,7 @@ header {
     align-items: flex-start;
     align-items: center;
     grid-template-columns: repeat(24, 60px);
-    overflow: scroll;
+    overflow-x: scroll;
     z-index: 1;
 }
 
@@ -97,4 +86,14 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+#background {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+    background-size: cover;
+    opacity: 0.5;
+    top: 0px;
+    z-index: -1;
 }
